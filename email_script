@@ -1,0 +1,15 @@
+{
+#Email account settings for mail.ru
+:local smtpserv [:resolve "smtp.mail.ru"];
+:local EaccountFrom "TYPE_YOUR_EMAIL";
+:local EaccountTo "TYPE_YOUR_EMAIL";
+:local pass "TYPE_YOUR_SMTP_KEY";
+
+#Create and E-mail Config Backup
+:local exportfile ("$sysname-backup-" . [:pick [/system clock get date] 7 11] . [:pick [/system clock get date] 0 3] . [:pick [/system clock get date] 4 6] . ".rsc");
+/export file=$exportfile;
+
+#Create and E-mail Config Backup
+/tool e-mail send from=$EaccountFrom to=$EaccountTo server=$smtpserv port=465 user=$EaccountFrom password=$pass tls=yes file=$exportfile subject=("$sysname Config Script Backup (" . [/system clock get date] . ")") body=("$sysname Config Script file see in attachment. RouterOS $sysver");
+
+}
